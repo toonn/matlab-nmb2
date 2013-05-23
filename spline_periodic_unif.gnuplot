@@ -1,5 +1,5 @@
 set terminal pngcairo
-set output 'periotrig_cosine.png'
+set output 'spline_periodic_unif.png'
 
 #attractive gnuplotting
 set style line 1 lc rgb '#8b1a0e' pt 1 ps 1 lt 1 lw 2 # --- red
@@ -17,7 +17,10 @@ set ylabel "f(x)"
 set xrange [ 0:6.2308 ]
 set xzeroaxis
 set xtics axis
-set yrange [-2:2]
-plot "cosine.dat" using 1:2 title 'cos(6x)' with lines ls 1, \
-"perio_cosine.dat" using 1:2 title 'periodieke benadering' with points ls 2, \
-"cosine.dat" using 1:(0*$1) title '' with lines ls 11
+set yrange [-1:1.5]
+plot "spline_periodic.dat" using 1:(0*$1) title '' with lines ls 11, \
+"spline_periodic.dat" using 1:2 title 'sin(3x)*cos(9x)' with lines \
+lc rgb '#000000' lt 1 lw 2, \
+"spline_periodic.dat" using 1:3 title 'kkb met bsplines' \
+with points ls 1, \
+"spline_periodic_knopen.dat" using 1:(0*$1) title 'knooppunten uniform' with points ls 2
