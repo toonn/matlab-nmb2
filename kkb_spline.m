@@ -7,7 +7,7 @@ function [ c ] = kkb_spline( t, x, f )
 
     function [ M ] = bsplines( t, x )
         orde = 4; % k+1 (k == 3)
-        nplusk = length(t) + 3;
+        nplusk = length(t) - 3;
         
         J = zeros(length(x), 1);
         for i = 1:length(x)
