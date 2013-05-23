@@ -6,9 +6,12 @@ function [ c ] = kkb_spline( t, x, f )
 %   f = matrix van functiewaarden in de abscissen van d functies
 
     function [ M ] = bsplines( t, x )
+        % Stel de matrix M op met daarin n+k B-spline functies geevalueerd in de
+        % abscissen  x.
         orde = 4; % k+1 (k == 3)
         nplusk = length(t) - 3;
         
+        % Zoek in welk interval elke x zich bevindt.
         J = zeros(length(x), 1);
         for i = 1:length(x)
             for j = 4:length(t)-4
@@ -20,11 +23,15 @@ function [ c ] = kkb_spline( t, x, f )
             end
         end
         
+        % Initialiseer M op de juiste plaatsen met Nj,1(x) = 1
         M = zeros(length(x), nplusk);
         for i = 1:length(J)
             M(i,J(i)) = 1;
         end
        
+        % Pas voor iedere x de 'efficiente evaluatie' van de B-splines toe.
+        % Dit is gebaseerd op de recursie-betrekking voor B-splines,
+        % het stelt ongeveer het omgekeerde op van de driehoekige tabel van de Boor.
         for i = 1:length(x)
             for k = 1:orde-1
                 for l = 0:k
@@ -39,6 +46,7 @@ function [ c ] = kkb_spline( t, x, f )
     end
 
     M = bsplines(t, x);
+    % Los c op uit: f = Mc
     c = M\f;
 
 end

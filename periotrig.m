@@ -1,7 +1,12 @@
 function [ y ] = periotrig( x, K, M )
 %PERIOTRIG Evaluatie van periodieke interpolerende en benaderende veeltermen.
 %   Deze functie evalueert benaderende veeltermen van de reeksen in de
-%   kolommen van 'x' in 'M' punten... blabla aanvullen
+%   kolommen van 'x' in 'M' punten, hierbij worden enkel de eerste en de K volgend
+%   (en K laatste) coefficienten van de fourierreeks behouden.
+%   Zo kan de nauwkeurigheid van de interpolatie bepaald worden: als er ruis op een
+%   signaal zit bvb. kan dit (gedeeltelijk) weggewerkt worden door K < N/2 te kiezen,
+%   waardoor de hoogste frequenties in het signaal wegvallen, dit zijn meestal de
+%   frequenties van de ruis.
 
 N = size(x,1);
 d = size(x,2);
@@ -25,7 +30,7 @@ end
 %    Yhalf(k,i) = 0;
 %end
 
-% Combine Yhalf and  the 'symmetric' part conj(Yhalf) into Y
+% Combineer Yhalf en haar 'symmetrische' deel conj(Yhalf) in Y
 Y = [Yhalf; conj(flipud(Yhalf(2:M/2,:)))];
 
 y = ifft(Y);
